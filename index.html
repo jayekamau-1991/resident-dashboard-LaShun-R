@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NJL2L Dashboard — LaShun Robinson</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a7f5a; --green-bg: #e8f7f1; --green-border: #a3dcc5;
+    --amber: #b45309; --amber-bg: #fef3c7; --amber-border: #fcd34d;
+    --blue: #1d4ed8; --blue-bg: #eff6ff; --blue-border: #93c5fd;
+    --red: #b91c1c; --red-bg: #fef2f2; --red-border: #fca5a5;
+    --gray: #6b7280; --gray-bg: #f9fafb; --gray-border: #e5e7eb;
+    --navy: #0f172a; --slate: #334155; --muted: #64748b; --light: #f8fafc;
+    --border: #e2e8f0; --white: #ffffff;
+    --font: 'DM Sans', sans-serif; --mono: 'DM Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--light); color: var(--navy); font-size: 14px; line-height: 1.6; }
+
+  /* HEADER */
+  .header { background: var(--navy); color: white; padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
+  .header-left h1 { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.02em; }
+  .header-left p { color: #94a3b8; font-size: 0.85rem; margin-top: 0.25rem; }
+  .header-meta { text-align: right; }
+  .header-meta .badge { display: inline-block; background: #1e293b; color: #94a3b8; font-family: var(--mono); font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px; margin-bottom: 0.4rem; }
+  .header-meta .updated { color: #64748b; font-size: 0.75rem; }
+
+  /* LAYOUT */
+  .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem 2rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+  /* CARDS */
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; }
+  .card-title { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.5rem; }
+
+  /* METRIC CARDS */
+  .metric-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; position: relative; overflow: hidden; }
+  .metric-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .metric-card.blue::before { background: #3b82f6; }
+  .metric-card.green::before { background: #10b981; }
+  .metric-card.amber::before { background: #f59e0b; }
+  .metric-card.red::before { background: #ef4444; }
+  .metric-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.4rem; }
+  .metric-value { font-size: 1.8rem; font-weight: 600; color: var(--navy); font-family: var(--mono); line-height: 1; }
+  .metric-sub { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+
+  /* PROGRESS BAR */
+  .progress-section { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; margin-bottom: 1.5rem; }
+  .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+  .progress-title { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  .progress-pct { font-family: var(--mono); font-size: 0.85rem; font-weight: 500; color: var(--navy); }
+  .progress-track { background: #e2e8f0; border-radius: 99px; height: 10px; overflow: hidden; position: relative; }
+  .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, #1d4ed8, #10b981); transition: width 0.5s ease; }
+  .progress-markers { display: flex; justify-content: space-between; margin-top: 0.5rem; }
+  .progress-marker { font-size: 0.65rem; color: var(--muted); font-family: var(--mono); }
+
+  /* PROFILE */
+  .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1.5rem; margin-top: 0.75rem; }
+  .profile-row { display: flex; flex-direction: column; padding: 0.4rem 0; border-bottom: 1px solid var(--gray-bg); }
+  .profile-row:last-child { border-bottom: none; }
+  .profile-label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+  .profile-value { font-size: 0.85rem; color: var(--navy); margin-top: 0.1rem; }
+  .profile-value a { color: #1d4ed8; text-decoration: none; }
+  .profile-value a:hover { text-decoration: underline; }
+  .profile-mono { font-family: var(--mono); }
+
+  /* TIMELINE */
+  .timeline { margin-top: 0.75rem; }
+  .timeline-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--gray-bg); }
+  .timeline-item:last-child { border-bottom: none; }
+  .timeline-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .dot-green { background: var(--green); }
+  .dot-amber { background: #f59e0b; }
+  .dot-blue { background: #3b82f6; }
+  .dot-gray { background: #cbd5e1; }
+  .dot-red { background: #ef4444; }
+  .timeline-content { flex: 1; }
+  .timeline-name { font-size: 0.85rem; font-weight: 500; color: var(--navy); }
+  .timeline-date { font-size: 0.72rem; color: var(--muted); font-family: var(--mono); margin-top: 0.1rem; }
+  .status-badge { display: inline-block; font-size: 0.65rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 99px; margin-left: 0.5rem; vertical-align: middle; }
+  .sb-green { background: var(--green-bg); color: var(--green); }
+  .sb-amber { background: var(--amber-bg); color: var(--amber); }
+  .sb-blue { background: var(--blue-bg); color: var(--blue); }
+  .sb-gray { background: var(--gray-bg); color: var(--gray); }
+  .sb-red { background: var(--red-bg); color: var(--red); }
+
+  /* CHECKLIST */
+  .checklist { margin-top: 0.75rem; }
+  .check-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 0; border-bottom: 1px solid var(--gray-bg); }
+  .check-item:last-child { border-bottom: none; }
+  .check-icon { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.65rem; font-weight: 700; }
+  .check-complete { background: var(--green-bg); color: var(--green); }
+  .check-incomplete { background: var(--gray-bg); color: var(--gray); border: 1px solid var(--gray-border); }
+  .check-pending { background: var(--amber-bg); color: var(--amber); }
+  .check-label { font-size: 0.82rem; flex: 1; }
+  .check-date { font-size: 0.7rem; color: var(--muted); font-family: var(--mono); }
+
+  /* HOURS */
+  .hours-row { margin-bottom: 0.9rem; }
+  .hours-header { display: flex; justify-content: space-between; margin-bottom: 0.3rem; }
+  .hours-label { font-size: 0.78rem; font-weight: 500; color: var(--slate); }
+  .hours-count { font-size: 0.75rem; font-family: var(--mono); color: var(--muted); }
+  .hours-track { background: #e2e8f0; border-radius: 99px; height: 7px; overflow: hidden; }
+  .hours-fill { height: 100%; border-radius: 99px; }
+  .hf-blue { background: #3b82f6; }
+  .hf-green { background: #10b981; }
+  .hf-amber { background: #f59e0b; }
+  .hf-red { background: #ef4444; }
+
+  /* ACTION ITEMS */
+  .action-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; margin-bottom: 0.6rem; border: 1px solid; }
+  .action-item:last-child { margin-bottom: 0; }
+  .action-red { background: var(--red-bg); border-color: var(--red-border); }
+  .action-amber { background: var(--amber-bg); border-color: var(--amber-border); }
+  .action-blue { background: var(--blue-bg); border-color: var(--blue-border); }
+  .action-gray { background: var(--gray-bg); border-color: var(--gray-border); }
+  .action-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .ad-red { background: var(--red); }
+  .ad-amber { background: #f59e0b; }
+  .ad-blue { background: #3b82f6; }
+  .ad-gray { background: #94a3b8; }
+  .action-text { flex: 1; }
+  .action-title { font-size: 0.82rem; font-weight: 500; }
+  .action-desc { font-size: 0.75rem; color: var(--muted); margin-top: 0.15rem; }
+  .action-due { font-size: 0.7rem; font-family: var(--mono); margin-top: 0.2rem; font-weight: 500; }
+  .due-red { color: var(--red); }
+  .due-amber { color: var(--amber); }
+  .due-blue { color: var(--blue); }
+
+  /* SECTION HEADER */
+  .section-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.75rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+
+  /* FOOTER */
+  .footer { background: var(--navy); color: #64748b; padding: 1rem 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; font-size: 0.72rem; font-family: var(--mono); margin-top: 2rem; }
+  .footer span { color: #94a3b8; }
+
+  /* PRINT */
+  @media print {
+    body { background: white; font-size: 12px; }
+    .header { background: #0f172a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .footer { background: #0f172a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .metric-card, .card, .progress-section { break-inside: avoid; }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .grid-2 { grid-template-columns: 1fr 1fr; }
+    .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .profile-grid { grid-template-columns: 1fr; }
+    .header { flex-direction: column; }
+    .header-meta { text-align: left; }
+    .container { padding: 1rem; }
+  }
+  @media (max-width: 480px) {
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <h1>LaShun Robinson</h1>
+    <p>Interim Principal &nbsp;·&nbsp; Foundation Academy Charter School &nbsp;·&nbsp; Trenton, NJ (Mercer County)</p>
+    <p style="margin-top:0.4rem; color:#475569; font-size:0.78rem;">NJ Leaders to Leaders Program &nbsp;·&nbsp; Cohort 2025–2027 &nbsp;·&nbsp; Mentor: Jermaine Kamau</p>
+  </div>
+  <div class="header-meta">
+    <div class="badge">Tracking #00631288</div><br>
+    <div class="badge">Program Term: PT-11456</div><br>
+    <div class="updated">Last updated: June 5, 2026</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- METRIC CARDS -->
+  <div class="grid-4">
+    <div class="metric-card blue">
+      <div class="metric-label">Current Month</div>
+      <div class="metric-value">7</div>
+      <div class="metric-sub">of 24 &nbsp;·&nbsp; Year 1</div>
+    </div>
+    <div class="metric-card amber">
+      <div class="metric-label">Next Eval Due</div>
+      <div class="metric-value" style="font-size:1.2rem; padding-top:0.3rem;">10-Month</div>
+      <div class="metric-sub">~Sep 2026 &nbsp;·&nbsp; Formative #2</div>
+    </div>
+    <div class="metric-card green">
+      <div class="metric-label">Peer Hours Req.</div>
+      <div class="metric-value">10</div>
+      <div class="metric-sub">Year 1 minimum &nbsp;·&nbsp; Status: TBD</div>
+    </div>
+    <div class="metric-card amber">
+      <div class="metric-label">Stipend Due</div>
+      <div class="metric-value" style="font-size:1.3rem; padding-top:0.2rem;">$1,600</div>
+      <div class="metric-sub">By Sep 19, 2026 &nbsp;·&nbsp; Year 1</div>
+    </div>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-section">
+    <div class="progress-header">
+      <span class="progress-title">24-Month Residency Progress</span>
+      <span class="progress-pct">Month 7 of 24 &nbsp;·&nbsp; 29% Complete</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width: 29%;"></div>
+    </div>
+    <div class="progress-markers">
+      <span class="progress-marker">Start Nov 2025</span>
+      <span class="progress-marker">5-Mo ✓</span>
+      <span class="progress-marker">10-Mo Sep 2026</span>
+      <span class="progress-marker">Yr 1 Review Nov 2026</span>
+      <span class="progress-marker">15-Mo Feb 2027</span>
+      <span class="progress-marker">20-Mo Jul 2027</span>
+      <span class="progress-marker">24-Mo Nov 2027</span>
+    </div>
+  </div>
+
+  <!-- PROFILE + TIMELINE -->
+  <div class="grid-2">
+
+    <!-- PROFILE CARD -->
+    <div class="card">
+      <div class="section-label">Resident Profile</div>
+      <div class="profile-grid">
+        <div class="profile-row">
+          <span class="profile-label">Full Name</span>
+          <span class="profile-value">LaShun Robinson</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">Prefix</span>
+          <span class="profile-value">Mr.</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">Email</span>
+          <span class="profile-value"><a href="mailto:mrlashunrobinson@gmail.com">mrlashunrobinson@gmail.com</a></span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">Cell Phone</span>
+          <span class="profile-value profile-mono">(862) 368-6220</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">Phone</span>
+          <span class="profile-value profile-mono">(609) 920-9200</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">Date of Birth</span>
+          <span class="profile-value profile-mono">10/20/1976</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">Tracking #</span>
+          <span class="profile-value profile-mono">00631288</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">CE License #</span>
+          <span class="profile-value profile-mono">01847729</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">Residency Start</span>
+          <span class="profile-value profile-mono">Nov 19, 2025</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">Date of Hire</span>
+          <span class="profile-value profile-mono">Jul 1, 2024</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">School</span>
+          <span class="profile-value">Foundation Academy Charter School</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">School Address</span>
+          <span class="profile-value">363 West State St, Trenton, NJ 08618</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">Position on File</span>
+          <span class="profile-value">AP High School (Interim Principal)</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">District Type</span>
+          <span class="profile-value">Urban Charter — Mercer County</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">Mentor</span>
+          <span class="profile-value">Jermaine Kamau</span>
+        </div>
+        <div class="profile-row">
+          <span class="profile-label">Program Term</span>
+          <span class="profile-value profile-mono">PT-11456</span>
+        </div>
+        <div class="profile-row" style="grid-column: 1 / -1;">
+          <span class="profile-label">Supervisor — Talent Team</span>
+          <span class="profile-value"><a href="mailto:talentteam@foundationacademy.org">talentteam@foundationacademy.org</a> &nbsp;·&nbsp; (609) 920-9200</span>
+        </div>
+        <div class="profile-row" style="grid-column: 1 / -1;">
+          <span class="profile-label">Supervisor — Camille Echols</span>
+          <span class="profile-value"><a href="mailto:cechols@foundationacademy.org">cechols@foundationacademy.org</a> &nbsp;·&nbsp; (609) 920-9200</span>
+        </div>
+        <div class="profile-row" style="grid-column: 1 / -1;">
+          <span class="profile-label">Home Address</span>
+          <span class="profile-value">1014 Azalea Drive, North Brunswick Township, NJ 08902</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MILESTONE TIMELINE -->
+    <div class="card">
+      <div class="section-label">Program Milestones</div>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-dot dot-green"></div>
+          <div class="timeline-content">
+            <div class="timeline-name">All Primary & Secondary Documents <span class="status-badge sb-green">Complete</span></div>
+            <div class="timeline-date">Completed Dec 11, 2025</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot dot-green"></div>
+          <div class="timeline-content">
+            <div class="timeline-name">Provisional Certificate <span class="status-badge sb-green">Complete</span></div>
+            <div class="timeline-date">Completed Apr 21, 2025</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot dot-green"></div>
+          <div class="timeline-content">
+            <div class="timeline-name">Resident Orientation <span class="status-badge sb-green">Complete</span></div>
+            <div class="timeline-date">Completed Apr 9, 2026</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot dot-green"></div>
+          <div class="timeline-content">
+            <div class="timeline-name">5-Month Formative Evaluation (Standards 1, 2 & 3) <span class="status-badge sb-green">Complete</span></div>
+            <div class="timeline-date">Signed May 14 / Jun 4, 2026</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot dot-amber"></div>
+          <div class="timeline-content">
+            <div class="timeline-name">NJLA Day 1 <span class="status-badge sb-amber">Pending — Fall 2026</span></div>
+            <div class="timeline-date">Scheduled for Fall 2026</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot dot-amber"></div>
+          <div class="timeline-content">
+            <div class="timeline-name">NJLA Day 2 <span class="status-badge sb-amber">Pending — Fall 2026</span></div>
+            <div class="timeline-date">Scheduled for Fall 2026</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot dot-amber"></div>
+          <div class="timeline-content">
+            <div class="timeline-name">NJLA Day 3 <span class="status-badge sb-amber">Pending — Fall 2026</span></div>
+            <div class="timeline-date">Scheduled for Fall 2026</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot dot-blue"></div>
+          <div class="timeline-content">
+            <div class="timeline-name">10-Month Formative Evaluation <span class="status-badge sb-blue">Upcoming</span></div>
+            <div class="timeline-date">Due ~Sep 2026 &nbsp;·&nbsp; Formative #2</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot dot-blue"></div>
+          <div class="timeline-content">
+            <div class="timeline-name">Year 1 Resident Review (12 months) <span class="status-badge sb-blue">Upcoming</span></div>
+            <div class="timeline-date">Due ~Nov 2026</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot dot-gray"></div>
+          <div class="timeline-content">
+            <div class="timeline-name">15-Month Formative Evaluation <span class="status-badge sb-gray">Future</span></div>
+            <div class="timeline-date">Due ~Feb 2027 &nbsp;·&nbsp; Formative #3</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot dot-gray"></div>
+          <div class="timeline-content">
+            <div class="timeline-name">20-Month Formative Evaluation <span class="status-badge sb-gray">Future</span></div>
+            <div class="timeline-date">Due ~Jul 2027 &nbsp;·&nbsp; Formative #4</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot dot-gray"></div>
+          <div class="timeline-content">
+            <div class="timeline-name">24-Month Summative Evaluation <span class="status-badge sb-gray">Future</span></div>
+            <div class="timeline-date">Due ~Nov 2027 &nbsp;·&nbsp; Program Completion</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTS + HOURS -->
+  <div class="grid-2">
+
+    <!-- DOCUMENT CHECKLIST -->
+    <div class="card">
+      <div class="section-label">Document Checklist</div>
+      <div class="checklist">
+        <div class="check-item">
+          <div class="check-icon check-complete">✓</div>
+          <span class="check-label">Standard Residency Agreement</span>
+          <span class="check-date">Dec 11, 2025</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-complete">✓</div>
+          <span class="check-label">Memorandum of Understanding (MOU)</span>
+          <span class="check-date">Dec 11, 2025</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-complete">✓</div>
+          <span class="check-label">Statement of Assurance</span>
+          <span class="check-date">Apr 14, 2025</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-complete">✓</div>
+          <span class="check-label">Year 1 Residency Plan</span>
+          <span class="check-date">Dec 11, 2025</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-complete">✓</div>
+          <span class="check-label">Year 2 Residency Plan</span>
+          <span class="check-date">Dec 11, 2025</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-complete">✓</div>
+          <span class="check-label">Board Approval</span>
+          <span class="check-date">Apr 14, 2025</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-complete">✓</div>
+          <span class="check-label">Job Description</span>
+          <span class="check-date">Apr 14, 2025</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-complete">✓</div>
+          <span class="check-label">Provisional Certificate</span>
+          <span class="check-date">Apr 21, 2025</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-complete">✓</div>
+          <span class="check-label">Resident Resume (incl. new position)</span>
+          <span class="check-date">Dec 11, 2025</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-complete">✓</div>
+          <span class="check-label">Resident Orientation</span>
+          <span class="check-date">Apr 9, 2026</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-incomplete">○</div>
+          <span class="check-label">NJLA Day 1</span>
+          <span class="check-date" style="color:#f59e0b;">Fall 2026</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-incomplete">○</div>
+          <span class="check-label">NJLA Day 2</span>
+          <span class="check-date" style="color:#f59e0b;">Fall 2026</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-incomplete">○</div>
+          <span class="check-label">NJLA Day 3</span>
+          <span class="check-date" style="color:#f59e0b;">Fall 2026</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-complete">✓</div>
+          <span class="check-label">5-Month Formative Eval (Standards 1, 2 & 3)</span>
+          <span class="check-date">Jun 4, 2026</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-incomplete">○</div>
+          <span class="check-label">10-Month Formative Evaluation</span>
+          <span class="check-date" style="color:#1d4ed8;">Sep 2026</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-incomplete">○</div>
+          <span class="check-label">Year 1 Resident Review (12 months)</span>
+          <span class="check-date" style="color:#1d4ed8;">Nov 2026</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-incomplete">○</div>
+          <span class="check-label">15-Month Formative Evaluation</span>
+          <span class="check-date">Feb 2027</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-incomplete">○</div>
+          <span class="check-label">20-Month Formative Evaluation</span>
+          <span class="check-date">Jul 2027</span>
+        </div>
+        <div class="check-item">
+          <div class="check-icon check-incomplete">○</div>
+          <span class="check-label">24-Month Summative Evaluation</span>
+          <span class="check-date">Nov 2027</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: HOURS + ACTION ITEMS -->
+    <div style="display:flex; flex-direction:column; gap:1.5rem;">
+
+      <!-- HOUR REQUIREMENTS -->
+      <div class="card">
+        <div class="section-label">Hour Requirements — Year 1</div>
+
+        <div class="hours-row">
+          <div class="hours-header">
+            <span class="hours-label">Peer Support Group Hours</span>
+            <span class="hours-count">TBD / 10 hrs minimum</span>
+          </div>
+          <div class="hours-track"><div class="hours-fill hf-amber" style="width: 0%;"></div></div>
+        </div>
+
+        <div class="hours-row">
+          <div class="hours-header">
+            <span class="hours-label">NJLA Sessions</span>
+            <span class="hours-count">0 / 3 days</span>
+          </div>
+          <div class="hours-track"><div class="hours-fill hf-amber" style="width: 0%;"></div></div>
+        </div>
+
+        <div class="hours-row">
+          <div class="hours-header">
+            <span class="hours-label">Resident Orientation</span>
+            <span class="hours-count">Complete ✓</span>
+          </div>
+          <div class="hours-track"><div class="hours-fill hf-green" style="width: 100%;"></div></div>
+        </div>
+
+        <div class="hours-row">
+          <div class="hours-header">
+            <span class="hours-label">Formative Evaluations</span>
+            <span class="hours-count">1 of 4 complete</span>
+          </div>
+          <div class="hours-track"><div class="hours-fill hf-blue" style="width: 25%;"></div></div>
+        </div>
+
+        <p style="font-size:0.72rem; color:var(--muted); margin-top:0.75rem;">⚠️ Peer group hours and NJLA days pending — confirm with LaShun at next meeting (Jun 30).</p>
+      </div>
+
+      <!-- ACTION ITEMS -->
+      <div class="card">
+        <div class="section-label">Immediate Action Items</div>
+
+        <div class="action-item action-amber">
+          <div class="action-dot ad-amber"></div>
+          <div class="action-text">
+            <div class="action-title">Confirm Peer Support Group hours</div>
+            <div class="action-desc">Year 1 minimum is 10 hours — verify count at Jun 30 meeting</div>
+            <div class="action-due due-amber">Due: Jun 30, 2026 meeting</div>
+          </div>
+        </div>
+
+        <div class="action-item action-amber">
+          <div class="action-dot ad-amber"></div>
+          <div class="action-text">
+            <div class="action-title">NJLA Days 1, 2 & 3 — confirm fall dates</div>
+            <div class="action-desc">All 3 NJLA days incomplete — discuss registration plan</div>
+            <div class="action-due due-amber">Scheduled: Fall 2026</div>
+          </div>
+        </div>
+
+        <div class="action-item action-blue">
+          <div class="action-dot ad-blue"></div>
+          <div class="action-text">
+            <div class="action-title">Begin 10-Month Formative Evaluation prep</div>
+            <div class="action-desc">Select standards, draft reflections, gather artifacts for Formative #2</div>
+            <div class="action-due due-blue">Due: ~Sep 2026</div>
+          </div>
+        </div>
+
+        <div class="action-item action-blue">
+          <div class="action-dot ad-blue"></div>
+          <div class="action-text">
+            <div class="action-title">Year 1 Stipend — $1,600</div>
+            <div class="action-desc">Paid directly by LaShun to mentor — not through district</div>
+            <div class="action-due due-blue">Due by: Sep 19, 2026 (Month 10)</div>
+          </div>
+        </div>
+
+        <div class="action-item action-gray">
+          <div class="action-dot ad-gray"></div>
+          <div class="action-text">
+            <div class="action-title">Update position in NJL2L portal</div>
+            <div class="action-desc">Portal shows AP High School — should reflect Interim Principal</div>
+            <div class="action-due" style="color:var(--muted);">When available</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>LaShun Robinson &nbsp;·&nbsp; Tracking #00631288 &nbsp;·&nbsp; Mentor: Jermaine Kamau</span>
+  <span>Generated: June 5, 2026 &nbsp;·&nbsp; NJL2L Cohort 2025–2027</span>
+</div>
+
+</body>
+</html>
