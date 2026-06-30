@@ -1,3 +1,6 @@
+
+
+Index · HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +22,7 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: var(--font); background: var(--light); color: var(--navy); font-size: 14px; line-height: 1.6; }
-
+ 
 /* HEADER */
 .header { background: var(--navy); color: white; padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
 .header-left h1 { font-size: 1.7rem; font-weight: 600; letter-spacing: -0.02em; }
@@ -27,23 +30,27 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
 .header-meta { text-align: right; display: flex; flex-direction: column; gap: 0.4rem; align-items: flex-end; }
 .badge-mono { font-family: var(--mono); font-size: 0.72rem; background: #1e293b; color: #94a3b8; padding: 0.25rem 0.6rem; border-radius: 4px; display: inline-block; }
 .header-meta .updated { color: #64748b; font-size: 0.73rem; }
-
+ 
 /* LAYOUT */
 .container { max-width: 1200px; margin: 0 auto; padding: 1.75rem 2rem; }
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
 .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
 .full { margin-bottom: 1.5rem; }
-
+ 
 /* CARDS */
 .card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; }
 .card h3 { font-size: 0.7rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.5rem; }
 .card .big { font-size: 2rem; font-weight: 600; color: var(--navy); line-height: 1.1; }
 .card .sub { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
-
+ 
 /* SECTION LABELS */
 .section-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
-
+.section-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+.section-label-row .section-label { margin: 0; padding: 0; border: none; }
+.section-link { font-size: 0.72rem; font-weight: 500; color: var(--blue); text-decoration: none; text-transform: none; letter-spacing: normal; }
+.section-link:hover { text-decoration: underline; }
+ 
 /* PROGRESS */
 .progress-wrap { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
 .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
@@ -53,7 +60,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
 .progress-bar-inner { background: linear-gradient(90deg, #1a7f5a, #2dd4bf); height: 100%; border-radius: 999px; transition: width 0.4s ease; }
 .progress-ticks { display: flex; justify-content: space-between; margin-top: 0.4rem; }
 .progress-ticks span { font-size: 0.65rem; color: #94a3b8; font-family: var(--mono); }
-
+ 
 /* STATUS BADGES */
 .badge { display: inline-block; font-size: 0.7rem; font-weight: 500; padding: 0.2rem 0.55rem; border-radius: 999px; }
 .badge.green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
@@ -62,7 +69,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
 .badge.red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
 .badge.gray { background: var(--gray-bg); color: var(--gray); border: 1px solid var(--gray-border); }
 .badge.purple { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
-
+ 
 /* PROFILE */
 .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 2rem; }
 .profile-row { display: flex; flex-direction: column; padding: 0.4rem 0; border-bottom: 1px solid #f1f5f9; }
@@ -71,7 +78,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
 .profile-value { font-size: 0.88rem; color: var(--navy); margin-top: 0.1rem; }
 .profile-value a { color: var(--blue); text-decoration: none; }
 .profile-value a:hover { text-decoration: underline; }
-
+ 
 /* TIMELINE */
 .timeline { display: flex; flex-direction: column; gap: 0; }
 .tl-item { display: flex; align-items: flex-start; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9; }
@@ -85,13 +92,13 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
 .tl-content { flex: 1; }
 .tl-title { font-size: 0.88rem; font-weight: 500; color: var(--navy); }
 .tl-date { font-size: 0.75rem; color: var(--muted); font-family: var(--mono); margin-top: 0.1rem; }
-
+ 
 /* CHECKLIST */
 .checklist { display: flex; flex-direction: column; gap: 0; }
 .check-item { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid #f1f5f9; }
 .check-item:last-child { border-bottom: none; }
 .check-name { font-size: 0.88rem; color: var(--slate); }
-
+ 
 /* HOURS TRACKER */
 .hour-row { margin-bottom: 0.85rem; }
 .hour-row:last-child { margin-bottom: 0; }
@@ -104,7 +111,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
 .h-bar-inner.indigo { background: #6366f1; }
 .h-bar-inner.violet { background: #8b5cf6; }
 .h-bar-inner.rose { background: #f43f5e; }
-
+ 
 /* ACTIONS */
 .action-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.65rem 0; border-bottom: 1px solid #f1f5f9; }
 .action-item:last-child { border-bottom: none; }
@@ -115,7 +122,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
 .a-dot.gray { background: #d1d5db; }
 .a-text { font-size: 0.88rem; color: var(--slate); }
 .a-note { font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem; }
-
+ 
 /* PROGRAM OVERVIEW */
 .program-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
 .prog-card { border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.1rem; background: var(--white); }
@@ -128,7 +135,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
 .prog-card.highlight .prog-title { color: #64748b; }
 .prog-card.highlight ul li { color: #e2e8f0; }
 .prog-card.highlight ul li::before { color: #334155; }
-
+ 
 /* IMPORTANT NOTES */
 .note-box { background: var(--amber-bg); border: 1px solid var(--amber-border); border-radius: 8px; padding: 0.9rem 1.1rem; margin-bottom: 0.75rem; }
 .note-box:last-child { margin-bottom: 0; }
@@ -140,11 +147,11 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
 .note-box.alert { background: var(--red-bg); border-color: var(--red-border); }
 .note-box.alert .note-label { color: var(--red); }
 .note-box.alert .note-text { color: #7f1d1d; }
-
+ 
 /* FOOTER */
 .footer { background: var(--navy); color: #475569; text-align: center; padding: 1.25rem; font-size: 0.75rem; font-family: var(--mono); margin-top: 2rem; }
 .footer span { color: #64748b; }
-
+ 
 /* PRINT */
 @media print {
   .header { background: #0f172a !important; -webkit-print-color-adjust: exact; }
@@ -152,7 +159,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
   body { background: white; }
   .container { padding: 1rem; }
 }
-
+ 
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .grid-4 { grid-template-columns: 1fr 1fr; }
@@ -166,7 +173,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
 </style>
 </head>
 <body>
-
+ 
 <!-- HEADER -->
 <div class="header">
   <div class="header-left">
@@ -177,12 +184,12 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
     <span class="badge-mono">Tracking #00631288</span>
     <span class="badge-mono">PT-11456</span>
     <span class="badge-mono">Cohort 2025–2027</span>
-    <span class="updated">Last updated: June 10, 2026</span>
+    <span class="updated">Last updated: June 30, 2026</span>
   </div>
 </div>
-
+ 
 <div class="container">
-
+ 
   <!-- METRIC CARDS -->
   <div class="grid-4">
     <div class="card">
@@ -206,7 +213,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
       <div class="sub">~Sep 19, 2026 (Month 10)</div>
     </div>
   </div>
-
+ 
   <!-- PROGRESS BAR -->
   <div class="progress-wrap">
     <div class="progress-header">
@@ -226,7 +233,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
       <span>End<br>Nov '27</span>
     </div>
   </div>
-
+ 
   <!-- PROFILE + ACTION ITEMS -->
   <div class="grid-2">
     <div class="card">
@@ -274,7 +281,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
         </div>
       </div>
     </div>
-
+ 
     <div class="card">
       <div class="section-label">Action Items</div>
       <div style="display:flex;flex-direction:column;gap:0;">
@@ -309,8 +316,8 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
         <div class="action-item">
           <div class="a-dot blue"></div>
           <div>
-            <div class="a-text">Next mentor meeting: Jun 30, 2026</div>
-            <div class="a-note">3:30–4:30 PM at Foundation Academy</div>
+            <div class="a-text">Next mentor meeting: Jul 28, 2026</div>
+            <div class="a-note">3:30–4:30 PM at Foundation Academy · Meeting 4 (Jun 30) complete</div>
           </div>
         </div>
         <div class="action-item">
@@ -323,7 +330,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
       </div>
     </div>
   </div>
-
+ 
   <!-- MILESTONE TIMELINE + DOCUMENTS -->
   <div class="grid-2">
     <div class="card">
@@ -427,7 +434,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
         </div>
       </div>
     </div>
-
+ 
     <div style="display:flex;flex-direction:column;gap:1.5rem;">
       <div class="card">
         <div class="section-label">Document Checklist</div>
@@ -443,9 +450,12 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
           <div class="check-item"><span class="check-name">Action Research Proposal</span><span class="badge gray">Not Started</span></div>
         </div>
       </div>
-
+ 
       <div class="card">
-        <div class="section-label">Hour Requirements Tracker</div>
+        <div class="section-label-row">
+          <div class="section-label">Hour Requirements Tracker</div>
+          <a class="section-link" href="https://docs.google.com/spreadsheets/d/1C3hPpIApFlFyVMuwQxN_GZky-3xOdySAeusmsqiKWA8/edit?gid=1242876577#gid=1242876577" target="_blank" rel="noopener">View full tracker →</a>
+        </div>
         <div class="hour-row">
           <div class="hour-label"><span>Total Hours (est.)</span><strong>~50 / 500+</strong></div>
           <div class="h-bar-outer"><div class="h-bar-inner teal" style="width:10%;"></div></div>
@@ -465,7 +475,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
       </div>
     </div>
   </div>
-
+ 
   <!-- STIPEND SCHEDULE -->
   <div class="grid-2" style="margin-bottom:1.5rem;">
     <div class="card">
@@ -484,25 +494,25 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
         Post–July 1, 2025 stipend schedule applies. Disbursements tied to formative evaluation months.
       </div>
     </div>
-
+ 
     <div class="card">
       <div class="section-label">Meeting Schedule</div>
       <div style="font-size:0.85rem; color:var(--slate); margin-bottom:0.6rem;">Every last Tuesday of the month · 3:30–4:30 PM · Foundation Academy</div>
       <div class="checklist">
-        <div class="check-item"><span class="check-name">Meeting 1 — Jun 30, 2026</span><span class="badge blue">Upcoming</span></div>
-        <div class="check-item"><span class="check-name">Meeting 2 — Jul 28, 2026</span><span class="badge gray">Planned</span></div>
-        <div class="check-item"><span class="check-name">Meeting 3 — Aug 25, 2026</span><span class="badge gray">Planned</span></div>
-        <div class="check-item"><span class="check-name">Meeting 4 — Sep 29, 2026</span><span class="badge gray">Planned</span></div>
+        <div class="check-item"><span class="check-name">Meeting 4 — Jun 30, 2026</span><span class="badge green">Occurred</span></div>
+        <div class="check-item"><span class="check-name">Meeting 5 — Jul 28, 2026</span><span class="badge blue">Upcoming</span></div>
+        <div class="check-item"><span class="check-name">Meeting 6 — Aug 25, 2026</span><span class="badge gray">Planned</span></div>
+        <div class="check-item"><span class="check-name">Meeting 7 — Sep 29, 2026</span><span class="badge gray">Planned</span></div>
         <div class="check-item"><span class="check-name">· · · 20 total meetings through Jan 25, 2028</span><span class="badge gray">Scheduled</span></div>
       </div>
     </div>
   </div>
-
+ 
   <!-- NJL2L PROGRAM OVERVIEW -->
   <div class="card full">
     <div class="section-label">NJL2L Program Overview — Key Requirements &amp; Rules</div>
     <div class="program-grid">
-
+ 
       <div class="prog-card">
         <div class="prog-title"><span class="prog-icon">📋</span> Registration &amp; Documents</div>
         <ul>
@@ -513,7 +523,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
           <li>Resume must be attached to Statement of Assurance</li>
         </ul>
       </div>
-
+ 
       <div class="prog-card">
         <div class="prog-title"><span class="prog-icon">📝</span> Formative Assessments</div>
         <ul>
@@ -523,7 +533,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
           <li><strong>Confidential</strong> — cannot be shared with district without resident's written consent</li>
         </ul>
       </div>
-
+ 
       <div class="prog-card">
         <div class="prog-title"><span class="prog-icon">🎓</span> Summative Assessment</div>
         <ul>
@@ -534,7 +544,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
           <li>Transmitted to NJDOE by NJL2L</li>
         </ul>
       </div>
-
+ 
       <div class="prog-card">
         <div class="prog-title"><span class="prog-icon">🔬</span> Action Research Project</div>
         <ul>
@@ -545,7 +555,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
           <li>Presented via PowerPoint to Peer Support Group at end of Year 2</li>
         </ul>
       </div>
-
+ 
       <div class="prog-card">
         <div class="prog-title"><span class="prog-icon">👥</span> Peer Support Groups</div>
         <ul>
@@ -555,7 +565,7 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
           <li>Hours count toward total residency hour requirement</li>
         </ul>
       </div>
-
+ 
       <div class="prog-card">
         <div class="prog-title"><span class="prog-icon">⚠️</span> Interruption Rules</div>
         <ul>
@@ -566,10 +576,10 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
           <li><strong>Interim and Acting positions are ineligible for NJL2L</strong></li>
         </ul>
       </div>
-
+ 
     </div>
   </div>
-
+ 
   <!-- IMPORTANT NOTES -->
   <div class="full">
     <div class="section-label" style="margin-bottom:0.75rem;">Important Notes &amp; Flags</div>
@@ -590,14 +600,15 @@ body { font-family: var(--font); background: var(--light); color: var(--navy); f
       <div class="note-text">All assessments and mentor/resident interactions are confidential. Formative and Summative Assessment Reports cannot be shared with Foundation Academy or any other party without LaShun's written consent.</div>
     </div>
   </div>
-
+ 
 </div>
-
+ 
 <!-- FOOTER -->
 <div class="footer">
   <span>LaShun Robinson · Tracking #00631288 · PT-11456</span><br>
-  Mentor: Mr. Kamau · NJL2L Cohort 2025–2027 · Generated June 10, 2026
+  Mentor: Mr. Kamau · NJL2L Cohort 2025–2027 · Generated June 30, 2026
 </div>
-
+ 
 </body>
 </html>
+ 
